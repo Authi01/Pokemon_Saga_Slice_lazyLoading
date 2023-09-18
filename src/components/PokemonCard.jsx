@@ -12,7 +12,7 @@ function PokemonCard({ pokemon, imageUrl }) {
         <Card.Title>{pokemon.name}</Card.Title>
         <Card.Text></Card.Text>
         <Link to={`/description/${pokemon.name}`}>
-          <Button variant="primary">Get Deetails</Button>
+          <Button variant="primary">Get Details</Button>
         </Link>
       </Card.Body>
     </Card>
