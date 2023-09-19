@@ -1,14 +1,20 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, select } from "redux-saga/effects";
 import axios from "axios";
 import { setPokemonList, setPokemonDetails } from "./pokemonSlice";
 
 //worker
-function* fetchPokemonListSaga() {
+function* fetchPokemonListSaga(action) {
   try {
+    const { page } = action.payload;
+    const limit = 20;
+    const offset = (page - 1) * limit;
     const response = yield call(() =>
-      axios.get("https://pokeapi.co/api/v2/pokemon/")
+      axios.get(
+        `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`
+      )
     );
-    yield put(setPokemonList(response.data.results));
+    const currentList = yield select((state) => state.pokemon.list);
+    yield put(setPokemonList([...currentList, ...response.data.results]));
   } catch (error) {
     console.error("An error occurred:", error);
   }

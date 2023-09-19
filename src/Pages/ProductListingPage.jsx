@@ -2,14 +2,25 @@ import React, { useEffect } from "react";
 import PokemonCard from "../components/PokemonCard";
 import getImageUrl from "../Utils/ImageUrl";
 import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPage } from "../redux/pokemonSlice";
 
 const ProductListingPage = () => {
   const dispatch = useDispatch();
   const pokemonList = useSelector((state) => state.pokemon.list);
+  const currentPage = useSelector((state) => state.pokemon.currentPage);
+
+  const loadMorePokemon = () => {
+    dispatch(setCurrentPage(currentPage + 1));
+    dispatch({
+      type: "FETCH_POKEMON_LIST",
+      payload: { page: currentPage + 1 },
+    });
+  };
 
   useEffect(() => {
-    if (!pokemonList || pokemonList.length === 0) {
-      dispatch({ type: "FETCH_POKEMON_LIST" });
+    if (currentPage === 0) {
+      dispatch(setCurrentPage(1));
+      dispatch({ type: "FETCH_POKEMON_LIST", payload: { page: 1 } });
     }
   }, []);
 
@@ -24,6 +35,9 @@ const ProductListingPage = () => {
           );
         })}
       </div>
+      <button onClick={loadMorePokemon} className="back-button">
+        Load More
+      </button>
     </div>
   );
 };

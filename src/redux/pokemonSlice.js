@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// initial state
 const initialState = {
   list: [],
   details: null,
+  currentPage: 0,
 };
 
 const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
-    // takes the initial state and the action handlers ()
     setPokemonList: (state, action) => {
-      state.list = action.payload; // updates the list property with actionpayload
-      // this is called when action with setPokemonList is dispatched
+      state.list = action.payload;
     },
     setPokemonDetails: (state, action) => {
       state.details = action.payload;
-      //called when action setPokemonDeatils is dispatched
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
     },
   },
 });
 
-//creating action creators and exporting them
-export const { setPokemonList, setPokemonDetails } = pokemonSlice.actions;
+export const { setPokemonList, setPokemonDetails, setCurrentPage } =
+  pokemonSlice.actions;
 export default pokemonSlice.reducer;

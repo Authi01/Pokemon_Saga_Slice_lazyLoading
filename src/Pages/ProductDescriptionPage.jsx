@@ -9,12 +9,8 @@ const ProductDescriptionPage = () => {
   const pokemonDetails = useSelector((state) => state.pokemon.details);
 
   useEffect(() => {
-    // Dispatch an action to fetch Pokemon details
     dispatch({ type: "FETCH_POKEMON_DETAILS", payload: name });
-  }, [dispatch, name]);
-  // if the data is fetched successfully , we dispatch the setPokemonList action-
-  // with the data as its payload
-
+  }, []);
   if (!pokemonDetails) {
     return <div>Loading...</div>;
   }
